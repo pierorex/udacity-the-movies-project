@@ -24,6 +24,7 @@ public class DetailsActivity extends AppCompatActivity {
 
         int position = getIntent().getIntExtra("position", -1);
         Movie movie = ListActivity.movies[position];
+
         if (position != -1) {
             mTitleTextView.setText(movie.title);
             mReleaseDateTextView.setText(movie.formatedReleaseDate());
@@ -32,20 +33,16 @@ public class DetailsActivity extends AppCompatActivity {
 
             Picasso.with(DetailsActivity.this)
                     .load(NetworkUtils.buildPosterUrl(movie))
-                    //.placeholder(R.raw.place_holder)
+                    .error(R.raw.load_error)
                     .noFade()
                     .resize(500, 0)
-                    //.error(R.raw.big_problem)
+                    .into(imageView);
+        } else {
+            Picasso.with(DetailsActivity.this)
+                    .load(R.raw.load_error)
+                    .noFade()
+                    .resize(500, 0)
                     .into(imageView);
         }
-
-//        } else {
-//            Picasso.with(DetailsActivity.this)
-//                    .load(R.raw.big_problem)
-//                    .noFade()
-//                    .resize(800, 800)
-//                    .centerCrop()
-//                    .into(imageView);
-//        }
     }
 }

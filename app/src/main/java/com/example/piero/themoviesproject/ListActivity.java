@@ -128,11 +128,10 @@ public class ListActivity extends AppCompatActivity {
                 imageView = (ImageView) convertView;
             }
 
-            //Picasso.with(MainActivity.this).setDebugging(true);
             Picasso.with(ListActivity.this)
                     .load(NetworkUtils.buildPosterUrl(movies[position]))
-                    //.placeholder(R.raw.place_holder)
-                    //.error(R.raw.big_problem)
+                    .placeholder(R.raw.movie_poster_placeholder)
+                    .error(R.raw.load_error)
                     .resize(600, 800)
                     .centerInside()
                     .into(imageView);
