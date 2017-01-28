@@ -5,7 +5,9 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -24,18 +26,19 @@ import utilities.NetworkUtils;
 public class ListActivity extends AppCompatActivity {
     private static final String TAG = ListActivity.class.getSimpleName();
     public static Movie[] movies;
+    String sort_order = "popular";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
-        loadPopularMoviesData();
+        loadMoviesData(NetworkUtils.buildPopularUrl());
     }
 
-    private void loadPopularMoviesData() {
+    private void loadMoviesData(URL url) {
         //showWeatherDataView();
 
-        new FetchMoviesTask().execute();
+        new FetchMoviesTask().execute(url);
     }
 
     private void loadGridView() {
@@ -52,7 +55,7 @@ public class ListActivity extends AppCompatActivity {
         });
     }
 
-    public class FetchMoviesTask extends AsyncTask<Void, Void, Movie[]> {
+    public class FetchMoviesTask extends AsyncTask<URL, Void, Movie[]> {
         private final String TAG = FetchMoviesTask.class.getSimpleName();
 //
 //        @Override
@@ -62,8 +65,8 @@ public class ListActivity extends AppCompatActivity {
 //        }
 
         @Override
-        protected Movie[] doInBackground(Void... params) {
-            URL requestUrl = NetworkUtils.buildPopularUrl();
+        protected Movie[] doInBackground(URL... params) {
+            URL requestUrl = params[0];
 
             try {
                 String jsonResponse = NetworkUtils.getResponseFromHttpUrl(requestUrl);
@@ -135,5 +138,36 @@ public class ListActivity extends AppCompatActivity {
                     .into(imageView);
             return imageView;
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        /* Use AppCompatActivity's method getMenuInflater to get a handle on the menu inflater */
+        MenuInflater inflater = getMenuInflater();
+        /* Use the inflater's inflate method to inflate our menu layout to this menu */
+        inflater.inflate(R.menu.main_menu, menu);
+        /* Return true so that the menu is displayed in the Toolbar */
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.action_sort_popular && sort_order.equals("top_rated")) {
+            movies = null;
+            sort_order = "popular";
+            loadMoviesData(NetworkUtils.buildPopularUrl());
+            return true;
+        }
+
+        if (id == R.id.action_sort_top_rated && sort_order.equals("popular")) {
+            movies = null;
+            sort_order = "top_rated";
+            loadMoviesData(NetworkUtils.buildTopRatedUrl());
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }
