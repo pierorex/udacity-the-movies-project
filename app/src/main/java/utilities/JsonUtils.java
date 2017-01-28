@@ -75,6 +75,8 @@ public final class JsonUtils {
             parsedMovieData[i].posterPath = movieObject.getString("poster_path");
             parsedMovieData[i].backdropPath = movieObject.getString("backdrop_path");
             parsedMovieData[i].overview = movieObject.getString("overview");
+            parsedMovieData[i].vote_average =
+                    Double.toString(movieObject.getDouble("vote_average"));
         }
 
         return parsedMovieData;
