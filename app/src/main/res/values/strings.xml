@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">theMoviesProject</string>
+    <string name="action_sort_popular">Show Popular</string>
+    <string name="action_sort_top_rated">Show Top Rated</string>
 </resources>
