@@ -16,8 +16,8 @@ import java.util.Scanner;
 
 public class NetworkUtils {
     private static final String TAG = NetworkUtils.class.getSimpleName();
-    private static final String IMG_API_URL = "http://image.tmdb.org/t/p/w185/";
-    private static final String MOVIES_API_KEY = "INSERT_YOUR_API_HERE";
+    private static final String IMG_API_URL = "http://image.tmdb.org/t/p/w780/";
+    private static final String MOVIES_API_KEY = "INSERT_API";
     private static final String MOVIES_API_URL = "https://api.themoviedb.org/3/movie";
     private static final String POPULAR_ENDPOINT = "popular";
     private static final String TOP_RATED_ENDPOINT = "top_rated";
@@ -34,7 +34,7 @@ public class NetworkUtils {
         Uri builtUri = Uri.parse(MOVIES_API_URL).buildUpon()
                 .appendPath(endpoint)
                 .appendQueryParameter("api_key", MOVIES_API_KEY)
-                .build();
+                    .build();
 
         URL url = null;
         try {
@@ -81,4 +81,13 @@ public class NetworkUtils {
             urlConnection.disconnect();
         }
     }
+
+    public static String buildPosterUrl(Movie movie) {
+        return IMG_API_URL + movie.posterPath;
+    }
+
+    public static String buildBackdropUrl(Movie movie) {
+        return IMG_API_URL + movie.backdropPath;
+    }
+
 }
