@@ -132,8 +132,8 @@ public class ListActivity extends AppCompatActivity {
                     .load(NetworkUtils.buildPosterUrl(movies[position]))
                     .placeholder(R.raw.movie_poster_placeholder)
                     .error(R.raw.load_error)
-                    .resize(600, 800)
                     .centerInside()
+                    .fit()
                     .into(imageView);
             return imageView;
         }

@@ -34,8 +34,8 @@ public class DetailsActivity extends AppCompatActivity {
             Picasso.with(DetailsActivity.this)
                     .load(NetworkUtils.buildPosterUrl(movie))
                     .error(R.raw.load_error)
-                    .noFade()
-                    .resize(500, 0)
+                    .centerInside()
+                    .fit()
                     .into(imageView);
         } else {
             Picasso.with(DetailsActivity.this)
