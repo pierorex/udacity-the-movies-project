@@ -11,7 +11,7 @@ import utilities.NetworkUtils;
 
 
 public class DetailsActivity extends AppCompatActivity {
-    private ImageView imageView;
+    private ImageView mPoster, mBackdrop;
     private TextView mTitleTextView;
     private TextView mReleaseDateTextView;
     private TextView mVoteAverageTextView;
@@ -22,8 +22,10 @@ public class DetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
-        imageView = (ImageView) findViewById(R.id.iv_thumbnail);
+        mPoster = (ImageView) findViewById(R.id.iv_poster);
+        mBackdrop = (ImageView) findViewById(R.id.iv_backdrop);
         mTitleTextView = (TextView) findViewById(R.id.tv_title);
+
         mReleaseDateTextView = (TextView) findViewById(R.id.tv_release_date);
         mVoteAverageTextView = (TextView) findViewById(R.id.tv_vote_average);
         mOverviewTextView = (TextView) findViewById(R.id.tv_overview);
@@ -40,15 +42,20 @@ public class DetailsActivity extends AppCompatActivity {
             Picasso.with(DetailsActivity.this)
                     .load(NetworkUtils.buildPosterUrl(movie))
                     .error(R.raw.load_error)
+                    .into(mPoster);
+
+            Picasso.with(DetailsActivity.this)
+                    .load(NetworkUtils.buildBackdropUrl(movie))
+                    .error(R.raw.load_error)
                     .centerInside()
                     .fit()
-                    .into(imageView);
+                    .into(mBackdrop);
         } else {
             Picasso.with(DetailsActivity.this)
                     .load(R.raw.load_error)
                     .noFade()
                     .resize(500, 0)
-                    .into(imageView);
+                    .into(mPoster);
         }
     }
 }
