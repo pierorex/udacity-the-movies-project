@@ -19,25 +19,23 @@
             android:id="@+id/tv_stub"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:textSize="60sp"
-            android:textColor="@android:color/white"
-            android:textStyle="bold" />
+            android:textSize="80dp" />
 
         <ImageView
             android:id="@+id/iv_poster"
             app:layout_widthPercent="50%"
             app:layout_heightPercent="50%"
-            android:layout_below="@id/tv_stub"
-            android:padding="10dp"/>
+            android:layout_below="@id/tv_stub"/>
 
         <TextView
             android:id="@+id/tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/iv_poster"
+            android:layout_toEndOf="@id/iv_poster"
             android:layout_below="@id/iv_backdrop"
             android:padding="5dp"
+            android:textSize="20sp"
             android:textStyle="bold"/>
 
         <TextView
@@ -45,8 +43,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/iv_poster"
+            android:layout_toEndOf="@id/iv_poster"
             android:layout_below="@id/tv_title"
             android:padding="5dp"
+            android:textSize="12sp"
             android:textStyle="bold"/>
 
         <TextView
@@ -55,7 +55,9 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/tv_release_date"
             android:layout_toRightOf="@id/iv_poster"
+            android:layout_toEndOf="@id/iv_poster"
             android:padding="5dp"
+            android:textSize="12sp"
             android:textStyle="bold"/>
 
         <TextView
@@ -64,6 +66,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/iv_poster"
             android:padding="10dp"
+            android:textSize="15sp"
             android:textStyle="bold"/>
 
     </android.support.percent.PercentRelativeLayout>
