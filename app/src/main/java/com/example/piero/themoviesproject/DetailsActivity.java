@@ -11,16 +11,22 @@ import utilities.NetworkUtils;
 
 
 public class DetailsActivity extends AppCompatActivity {
+    private ImageView imageView;
+    private TextView mTitleTextView;
+    private TextView mReleaseDateTextView;
+    private TextView mVoteAverageTextView;
+    private TextView mOverviewTextView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
-        ImageView imageView = (ImageView) findViewById(R.id.iv_thumbnail);
-        TextView mTitleTextView = (TextView) findViewById(R.id.tv_title);
-        TextView mReleaseDateTextView = (TextView) findViewById(R.id.tv_release_date);
-        TextView mVoteAverageTextView = (TextView) findViewById(R.id.tv_vote_average);
-        TextView mOverviewTextView = (TextView) findViewById(R.id.tv_overview);
+        imageView = (ImageView) findViewById(R.id.iv_thumbnail);
+        mTitleTextView = (TextView) findViewById(R.id.tv_title);
+        mReleaseDateTextView = (TextView) findViewById(R.id.tv_release_date);
+        mVoteAverageTextView = (TextView) findViewById(R.id.tv_vote_average);
+        mOverviewTextView = (TextView) findViewById(R.id.tv_overview);
 
         int position = getIntent().getIntExtra("position", -1);
         Movie movie = ListActivity.movies[position];
