@@ -29,6 +29,7 @@ import utilities.JsonUtils;
 import utilities.Movie;
 import utilities.NetworkUtils;
 
+
 public class ListActivity extends AppCompatActivity {
     private static final String TAG = ListActivity.class.getSimpleName();
     public static Movie[] movies;
@@ -145,14 +146,10 @@ public class ListActivity extends AppCompatActivity {
         @Override
         public View getView(int position, View convertView,
                             ViewGroup parent) {
-            //Log.v(TAG, "getView with position = " + Integer.toString(position));
             ImageView imageView;
-            // check to see if we have a view
             if (convertView == null) {
-                // no view - so create a new one
                 imageView = new ImageView(mContext);
             } else {
-                // use the recycled view object
                 imageView = (ImageView) convertView;
             }
 
@@ -169,11 +166,8 @@ public class ListActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        /* Use AppCompatActivity's method getMenuInflater to get a handle on the menu inflater */
         MenuInflater inflater = getMenuInflater();
-        /* Use the inflater's inflate method to inflate our menu layout to this menu */
         inflater.inflate(R.menu.main_menu, menu);
-        /* Return true so that the menu is displayed in the Toolbar */
         return true;
     }
 
@@ -197,8 +191,7 @@ public class ListActivity extends AppCompatActivity {
     }
 
     /**
-     * This method will make the error message visible and hide the weather
-     * View.
+     * This method will make the error message visible and hide the movies grid
      * <p>
      * Since it is okay to redundantly set the visibility of a View, we don't
      * need to check whether each view is currently visible or invisible.

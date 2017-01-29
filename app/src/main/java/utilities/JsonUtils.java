@@ -28,7 +28,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
- * Utility functions to handle OpenWeatherMap JSON data.
+ * Utility functions to parse JSON data.
  */
 public final class JsonUtils {
     private static final String TAG = JsonUtils.class.getSimpleName();
@@ -56,7 +56,7 @@ public final class JsonUtils {
                 case HttpURLConnection.HTTP_OK:
                     break;
                 case HttpURLConnection.HTTP_NOT_FOUND:
-                    /* Location invalid */
+                    /* probably invalid url */
                     return null;
                 default:
                     /* Server probably down */

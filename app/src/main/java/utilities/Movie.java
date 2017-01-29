@@ -1,8 +1,5 @@
 package utilities;
 
-/**
- * Created by piero on 1/24/17.
- */
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;

@@ -10,14 +10,11 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Scanner;
 
-/**
- * Created by piero on 1/23/17.
- */
 
 public class NetworkUtils {
     private static final String TAG = NetworkUtils.class.getSimpleName();
     private static final String IMG_API_URL = "http://image.tmdb.org/t/p/w780/";
-    private static final String MOVIES_API_KEY = "INSERT_API";
+    private static final String MOVIES_API_KEY = "ENTER_YOUR_API_HERE";
     private static final String MOVIES_API_URL = "https://api.themoviedb.org/3/movie";
     private static final String POPULAR_ENDPOINT = "popular";
     private static final String TOP_RATED_ENDPOINT = "top_rated";
@@ -27,7 +24,7 @@ public class NetworkUtils {
      * Builds the URL used to talk to the weather server using a location. This location is based
      * on the query capabilities of the weather provider that we are using.
      *
-     * @param locationQuery The location that will be queried for.
+     * @param endpoint the endpoint to use for the queries, it might me "popular" or "top_rated"
      * @return The URL to use to query the weather server.
      */
     public static URL buildUrl(String endpoint) {
