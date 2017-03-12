@@ -10,7 +10,7 @@ public class Movie {
     public String posterPath, backdropPath, title, overview;
     public Date releaseDate;
     public String voteAverage;
-    public String[] youtube_trailers_keys;
+    public Trailer[] trailers;
 
     public Movie(String title, Date releaseDate, String posterPath, String backdropPath, String overview, String voteAverage) {
         this.title = title;
