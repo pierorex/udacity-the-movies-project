@@ -6,8 +6,8 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-import utilities.Movie;
-import utilities.NetworkUtils;
+import com.example.piero.themoviesproject.utilities.Movie;
+import com.example.piero.themoviesproject.utilities.NetworkUtils;
 
 
 public class DetailsActivity extends AppCompatActivity {

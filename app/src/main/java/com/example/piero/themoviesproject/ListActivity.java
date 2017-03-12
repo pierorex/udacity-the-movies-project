@@ -25,18 +25,19 @@ import com.squareup.picasso.Picasso;
 
 import java.net.URL;
 
-import utilities.JsonUtils;
-import utilities.Movie;
-import utilities.NetworkUtils;
+import com.example.piero.themoviesproject.utilities.JsonUtils;
+import com.example.piero.themoviesproject.utilities.Movie;
+import com.example.piero.themoviesproject.utilities.NetworkUtils;
 
 
 public class ListActivity extends AppCompatActivity {
     private static final String TAG = ListActivity.class.getSimpleName();
     public static Movie[] movies;
-    String sort_order = "popular";
+    private String mSortOrder;
     private ProgressBar mLoadingIndicator;
     private GridView mGridView;
     private TextView mErrorMessageDisplay;
+    private static final String SORT_ORDER_STATE_KEY = "sort-state-key";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +46,25 @@ public class ListActivity extends AppCompatActivity {
         mLoadingIndicator = (ProgressBar) findViewById(R.id.pb_loading_indicator);
         mGridView = (GridView) findViewById(R.id.gv_movie_list);
         mErrorMessageDisplay = (TextView) findViewById(R.id.tv_error_message_display);
-        loadMoviesData(NetworkUtils.buildPopularUrl());
+        mSortOrder = getString(R.string.action_sort_popular);
+
+        // restore previous state
+        if (savedInstanceState != null) {
+            if (savedInstanceState.containsKey(SORT_ORDER_STATE_KEY)) {
+                 mSortOrder = savedInstanceState.getString(SORT_ORDER_STATE_KEY);
+            }
+        }
+
+        if (mSortOrder.equals(getString(R.string.action_sort_popular)))
+            loadMoviesData(NetworkUtils.buildPopularUrl());
+        else if (mSortOrder.equals(getString(R.string.action_sort_top_rated)))
+            loadMoviesData(NetworkUtils.buildTopRatedUrl());
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString(SORT_ORDER_STATE_KEY, mSortOrder);
     }
 
     private void loadMoviesData(URL url) {
@@ -175,14 +194,14 @@ public class ListActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.action_sort_popular && !sort_order.equals("popular")) {
-            sort_order = "popular";
+        if (id == R.id.action_sort_popular && !mSortOrder.equals(getString(R.string.action_sort_popular))) {
+            mSortOrder = getString(R.string.action_sort_popular);
             loadMoviesData(NetworkUtils.buildPopularUrl());
             return true;
         }
 
-        if (id == R.id.action_sort_top_rated && !sort_order.equals("top_rated")) {
-            sort_order = "top_rated";
+        if (id == R.id.action_sort_top_rated && !mSortOrder.equals(getString(R.string.action_sort_top_rated))) {
+            mSortOrder = getString(R.string.action_sort_top_rated);
             loadMoviesData(NetworkUtils.buildTopRatedUrl());
             return true;
         }
@@ -197,7 +216,7 @@ public class ListActivity extends AppCompatActivity {
      * need to check whether each view is currently visible or invisible.
      */
     private void showErrorMessage() {
-        sort_order = "error";
+        mSortOrder = "error";
         mGridView.setVisibility(View.INVISIBLE);
         mErrorMessageDisplay.setVisibility(View.VISIBLE);
     }
