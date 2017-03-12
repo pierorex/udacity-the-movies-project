@@ -9,7 +9,17 @@ public class Movie {
     private static final String TAG = Movie.class.getSimpleName();
     public String posterPath, backdropPath, title, overview;
     public Date releaseDate;
-    public String vote_average;
+    public String voteAverage;
+    public String[] youtube_trailers_keys;
+
+    public Movie(String title, Date releaseDate, String posterPath, String backdropPath, String overview, String voteAverage) {
+        this.title = title;
+        this.releaseDate = releaseDate;
+        this.posterPath = posterPath;
+        this.backdropPath = backdropPath;
+        this.overview = overview;
+        this.voteAverage = voteAverage;
+    }
 
     @Override
     public String toString(){
@@ -23,6 +33,6 @@ public class Movie {
     }
 
     public String formatedVoteAverage() {
-        return vote_average + " / 10";
+        return voteAverage + " / 10";
     }
 }

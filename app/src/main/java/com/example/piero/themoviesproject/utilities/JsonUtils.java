@@ -69,20 +69,20 @@ public final class JsonUtils {
 
         for (int i = 0; i < movieArray.length(); i++) {
             JSONObject movieObject = movieArray.getJSONObject(i);
-            parsedMovieData[i] = new Movie();
-            parsedMovieData[i].title = movieObject.getString("title");
-            parsedMovieData[i].releaseDate = dateToString(movieObject.getString("release_date"));
-            parsedMovieData[i].posterPath = movieObject.getString("poster_path");
-            parsedMovieData[i].backdropPath = movieObject.getString("backdrop_path");
-            parsedMovieData[i].overview = movieObject.getString("overview");
-            parsedMovieData[i].vote_average =
-                    Double.toString(movieObject.getDouble("vote_average"));
+            parsedMovieData[i] = new Movie(
+                    movieObject.getString("title"),
+                    dateStringToDate(movieObject.getString("release_date")),
+                    movieObject.getString("poster_path"),
+                    movieObject.getString("backdrop_path"),
+                    movieObject.getString("overview"),
+                    Double.toString(movieObject.getDouble("vote_average"))
+            );
         }
 
         return parsedMovieData;
     }
 
-    public static Date dateToString(String dateString) {
+    public static Date dateStringToDate(String dateString) {
         SimpleDateFormat parser = new SimpleDateFormat("yyyy-MM-dd");
         Date date = null;
         try {
