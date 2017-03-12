@@ -92,16 +92,7 @@ public class TrailersAdapter extends RecyclerView.Adapter<TrailersAdapter.Traile
         int layoutIdForListItem = R.layout.trailer_item;
         LayoutInflater inflater = LayoutInflater.from(context);
         boolean shouldAttachToParentImmediately = false;
-
         View view = inflater.inflate(layoutIdForListItem, viewGroup, shouldAttachToParentImmediately);
-
-
-//        Picasso.with(context)
-//                .load(R.raw.playbutton)
-//                .noFade()
-//                .resize(100, 100)
-//                .error(R.raw.load_error)
-//                .into(mPlayButton);
         return new TrailersAdapterViewHolder(view);
     }
 
