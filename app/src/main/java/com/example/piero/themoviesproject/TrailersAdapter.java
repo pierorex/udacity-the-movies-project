@@ -9,6 +9,7 @@ import android.widget.TextView;
 import android.support.v7.widget.RecyclerView;
 
 import com.example.piero.themoviesproject.utilities.Trailer;
+import com.squareup.picasso.Picasso;
 
 /**
  * {@link TrailersAdapter} exposes a list of trailers to a
@@ -52,6 +53,14 @@ public class TrailersAdapter extends RecyclerView.Adapter<TrailersAdapter.Traile
             super(view);
             mTrailerNameTextView = (TextView) view.findViewById(R.id.tv_trailer_name);
             mPlayButtonImageView = (ImageView) view.findViewById(R.id.iv_play_button);
+
+            Picasso.with(view.getContext())
+                    .load(R.raw.playbutton)
+                    .noFade()
+                    .resize(200, 200)
+                    .error(R.raw.load_error)
+                    .into(mPlayButtonImageView);
+
             view.setOnClickListener(this);
         }
 
@@ -85,6 +94,14 @@ public class TrailersAdapter extends RecyclerView.Adapter<TrailersAdapter.Traile
         boolean shouldAttachToParentImmediately = false;
 
         View view = inflater.inflate(layoutIdForListItem, viewGroup, shouldAttachToParentImmediately);
+
+
+//        Picasso.with(context)
+//                .load(R.raw.playbutton)
+//                .noFade()
+//                .resize(100, 100)
+//                .error(R.raw.load_error)
+//                .into(mPlayButton);
         return new TrailersAdapterViewHolder(view);
     }
 

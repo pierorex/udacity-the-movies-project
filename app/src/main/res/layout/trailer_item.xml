@@ -9,13 +9,14 @@
         android:id="@+id/iv_play_button"
         android:layout_height="wrap_content"
         android:layout_width="0dp"
-        android:layout_weight="1" />
+        android:layout_weight="0.4" />
 
     <TextView
         android:id="@+id/tv_trailer_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="0.6"
         android:padding="10dp"
         android:textSize="15sp"
         android:textStyle="bold"/>

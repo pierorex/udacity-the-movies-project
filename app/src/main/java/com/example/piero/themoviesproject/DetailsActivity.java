@@ -85,14 +85,6 @@ public class DetailsActivity extends AppCompatActivity implements TrailersAdapte
         mRecyclerView.setAdapter(mTrailersAdapter);
 
         new FetchTrailersTask().execute(NetworkUtils.buildTrailersUrl(movie.id));
-
-//        for each trailer:
-//        Picasso.with(DetailsActivity.this)
-//                .load(R.raw.playbutton)
-//                .noFade()
-//                .resize(100, 100)
-//                .error(R.raw.load_error)
-//                .into(mPlayButton);
     }
 
     /**
