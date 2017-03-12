@@ -7,9 +7,8 @@ import java.util.Date;
 
 public class Movie {
     private static final String TAG = Movie.class.getSimpleName();
-    public String id, posterPath, backdropPath, title, overview;
+    public String id, posterPath, backdropPath, title, overview, voteAverage;
     public Date releaseDate;
-    public String voteAverage;
     public Trailer[] trailers;
 
     public Movie(String id, String title, Date releaseDate, String posterPath, String backdropPath, String overview, String voteAverage) {
