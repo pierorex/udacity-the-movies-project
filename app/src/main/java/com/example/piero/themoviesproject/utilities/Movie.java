@@ -7,12 +7,13 @@ import java.util.Date;
 
 public class Movie {
     private static final String TAG = Movie.class.getSimpleName();
-    public String posterPath, backdropPath, title, overview;
+    public String id, posterPath, backdropPath, title, overview;
     public Date releaseDate;
     public String voteAverage;
     public Trailer[] trailers;
 
-    public Movie(String title, Date releaseDate, String posterPath, String backdropPath, String overview, String voteAverage) {
+    public Movie(String id, String title, Date releaseDate, String posterPath, String backdropPath, String overview, String voteAverage) {
+        this.id = id;
         this.title = title;
         this.releaseDate = releaseDate;
         this.posterPath = posterPath;

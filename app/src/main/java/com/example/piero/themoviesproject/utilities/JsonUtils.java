@@ -18,6 +18,8 @@ package com.example.piero.themoviesproject.utilities;
 import android.content.Context;
 import android.util.Log;
 
+import com.example.piero.themoviesproject.DetailsActivity;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -70,6 +72,7 @@ public final class JsonUtils {
         for (int i = 0; i < movieArray.length(); i++) {
             JSONObject movieObject = movieArray.getJSONObject(i);
             parsedMovieData[i] = new Movie(
+                    movieObject.getString("id"),
                     movieObject.getString("title"),
                     dateStringToDate(movieObject.getString("release_date")),
                     movieObject.getString("poster_path"),
@@ -91,5 +94,40 @@ public final class JsonUtils {
             Log.e(TAG, e.getMessage());
         }
         return date;
+    }
+
+    public static Trailer[] getTrailersArrayFromJson(DetailsActivity detailsActivity, String jsonResponse)
+            throws JSONException {
+        Trailer[] parsedData = null;
+        JSONObject resultsJson = new JSONObject(jsonResponse);
+
+        /* Is there an error? */
+        if (resultsJson.has("code")) {
+            int errorCode = resultsJson.getInt("code");
+
+            switch (errorCode) {
+                case HttpURLConnection.HTTP_OK:
+                    break;
+                case HttpURLConnection.HTTP_NOT_FOUND:
+                    /* probably invalid url */
+                    return null;
+                default:
+                    /* Server probably down */
+                    return null;
+            }
+        }
+
+        JSONArray array = resultsJson.getJSONArray("results");
+        parsedData = new Trailer[array.length()];
+
+        for (int i = 0; i < array.length(); i++) {
+            JSONObject object = array.getJSONObject(i);
+            parsedData[i] = new Trailer(
+                    object.getString("name"),
+                    object.getString("key")
+            );
+        }
+
+        return parsedData;
     }
 }
