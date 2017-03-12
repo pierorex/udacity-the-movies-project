@@ -4,4 +4,5 @@
     <string name="action_sort_top_rated">Show Top Rated</string>
     <string name="error_message">There is no network connection at the moment. Please try again later.</string>
     <string name="trailers">Trailers:</string>
+    <string name="reviews">Reviews:</string>
 </resources>

@@ -130,4 +130,39 @@ public final class JsonUtils {
 
         return parsedData;
     }
+
+    public static Review[] getReviewsArrayFromJson(DetailsActivity detailsActivity, String jsonResponse)
+            throws JSONException {
+        Review[] parsedData = null;
+        JSONObject resultsJson = new JSONObject(jsonResponse);
+
+        /* Is there an error? */
+        if (resultsJson.has("code")) {
+            int errorCode = resultsJson.getInt("code");
+
+            switch (errorCode) {
+                case HttpURLConnection.HTTP_OK:
+                    break;
+                case HttpURLConnection.HTTP_NOT_FOUND:
+                    /* probably invalid url */
+                    return null;
+                default:
+                    /* Server probably down */
+                    return null;
+            }
+        }
+
+        JSONArray array = resultsJson.getJSONArray("results");
+        parsedData = new Review[array.length()];
+
+        for (int i = 0; i < array.length(); i++) {
+            JSONObject object = array.getJSONObject(i);
+            parsedData[i] = new Review(
+                    object.getString("author"),
+                    object.getString("content")
+            );
+        }
+
+        return parsedData;
+    }
 }

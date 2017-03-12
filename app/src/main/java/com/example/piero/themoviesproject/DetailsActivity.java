@@ -6,17 +6,16 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.percent.PercentRelativeLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.piero.themoviesproject.utilities.JsonUtils;
+import com.example.piero.themoviesproject.utilities.Review;
 import com.example.piero.themoviesproject.utilities.Trailer;
 import com.squareup.picasso.Picasso;
 
@@ -28,10 +27,12 @@ import java.net.URL;
 
 public class DetailsActivity extends AppCompatActivity implements TrailersAdapter.TrailersAdapterOnClickHandler {
     private static Trailer[] mTrailers;
+    private static Review[] mReviews;
     private ImageView mPoster, mBackdrop, mPlayButton;
     private TextView mTitleTextView, mReleaseDateTextView, mVoteAverageTextView, mOverviewTextView;
-    private RecyclerView mRecyclerView;
+    private RecyclerView mTrailersRecyclerView, mReviewsRecyclerView;
     private TrailersAdapter mTrailersAdapter;
+    private ReviewsAdapter mReviewsAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,15 +77,24 @@ public class DetailsActivity extends AppCompatActivity implements TrailersAdapte
                 .fit()
                 .into(mBackdrop);
 
-        mRecyclerView = (RecyclerView) findViewById(R.id.rv_trailers);
-        LinearLayoutManager layoutManager
+        mTrailersRecyclerView = (RecyclerView) findViewById(R.id.rv_trailers);
+        LinearLayoutManager trailersLayoutManager
                 = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-        mRecyclerView.setLayoutManager(layoutManager);
-        mRecyclerView.setHasFixedSize(true);
+        mTrailersRecyclerView.setLayoutManager(trailersLayoutManager);
+        mTrailersRecyclerView.setHasFixedSize(true);
         mTrailersAdapter = new TrailersAdapter(this);
-        mRecyclerView.setAdapter(mTrailersAdapter);
+        mTrailersRecyclerView.setAdapter(mTrailersAdapter);
+
+        LinearLayoutManager reviewsLayoutManager
+                = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        mReviewsRecyclerView = (RecyclerView) findViewById(R.id.rv_reviews);
+        mReviewsRecyclerView.setLayoutManager(reviewsLayoutManager);
+        mReviewsRecyclerView.setHasFixedSize(true);
+        mReviewsAdapter = new ReviewsAdapter();
+        mReviewsRecyclerView.setAdapter(mReviewsAdapter);
 
         new FetchTrailersTask().execute(NetworkUtils.buildTrailersUrl(movie.id));
+        new FetchReviewsTask().execute(NetworkUtils.buildReviewsUrl(movie.id));
     }
 
     /**
@@ -158,6 +168,68 @@ public class DetailsActivity extends AppCompatActivity implements TrailersAdapte
     }
 
     private void showTrailers() {
+        //mErrorMessageDisplay.setVisibility(View.INVISIBLE);
+        //mGridView.setVisibility(View.VISIBLE);
+    }
+
+    public class FetchReviewsTask extends AsyncTask<URL, Void, Review[]> {
+        private final String TAG = DetailsActivity.FetchReviewsTask.class.getSimpleName();
+
+        public boolean isOnline() {
+            ConnectivityManager cm =
+                    (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo netInfo = cm.getActiveNetworkInfo();
+            return netInfo != null && netInfo.isConnectedOrConnecting();
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            //mLoadingIndicator.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        protected Review[] doInBackground(URL... params) {
+            if (isOnline()) {
+                URL requestUrl = params[0];
+                Log.v(TAG, requestUrl.toString());
+
+                try {
+                    String jsonResponse = NetworkUtils.getResponseFromHttpUrl(requestUrl);
+                    return JsonUtils.getReviewsArrayFromJson(DetailsActivity.this, jsonResponse);
+                } catch (Exception e) {
+                    return null;
+                }
+            }
+            else {
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(Review[] fetchedReviews) {
+            //mLoadingIndicator.setVisibility(View.INVISIBLE);
+
+            if (fetchedReviews != null) {
+                mReviews = fetchedReviews;
+                mReviewsAdapter.setData(mReviews);
+                //loadGridView();
+                showReviews();
+            }
+            else {
+                Log.e(TAG, "No internet access/connection.");
+                Toast.makeText(
+                        DetailsActivity.this, "No internet connection",
+                        Toast.LENGTH_SHORT)
+                        .show();
+                if (mReviews == null) {
+                    //showErrorMessage();
+                }
+            }
+        }
+    }
+
+    private void showReviews() {
         //mErrorMessageDisplay.setVisibility(View.INVISIBLE);
         //mGridView.setVisibility(View.VISIBLE);
     }
