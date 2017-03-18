@@ -22,6 +22,12 @@
         <activity android:name=".DetailsActivity"
             android:configChanges="orientation|keyboardHidden|screenSize">
         </activity>
+
+        <provider
+            android:name="com.example.piero.themoviesproject.data.MovieContentProvider"
+            android:authorities="com.example.piero.themoviesproject"
+            android:exported="false"/>
+
     </application>
 
 </manifest>

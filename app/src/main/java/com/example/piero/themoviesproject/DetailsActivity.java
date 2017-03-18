@@ -1,4 +1,5 @@
 package com.example.piero.themoviesproject;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
@@ -15,6 +16,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.piero.themoviesproject.data.MovieContract;
+import com.example.piero.themoviesproject.data.MovieContract.MovieEntry;
 import com.example.piero.themoviesproject.utilities.JsonUtils;
 import com.example.piero.themoviesproject.utilities.Review;
 import com.example.piero.themoviesproject.utilities.Trailer;
@@ -53,7 +56,7 @@ public class DetailsActivity extends AppCompatActivity implements TrailersAdapte
         mIsFavorited = false;
 
         int position = getIntent().getIntExtra("position", -1);
-        Movie movie = ListActivity.movies[position];
+        final Movie movie = ListActivity.movies[position];
 
         if (position == -1) {
             Picasso.with(DetailsActivity.this)
@@ -109,6 +112,13 @@ public class DetailsActivity extends AppCompatActivity implements TrailersAdapte
                             .error(R.raw.load_error)
                             .into(mFavoriteStar);
                     // call query to insert this movie's title and id to the db
+                    ContentValues contentValues = new ContentValues();
+                    contentValues.put(MovieEntry.COLUMN_TITLE, movie.title);
+                    contentValues.put(MovieEntry.COLUMN_THEMOVIEDB_ID, movie.id);
+                    Uri uri = getContentResolver().insert(MovieEntry.CONTENT_URI, contentValues);
+                    if(uri != null) {
+                        Toast.makeText(getBaseContext(), uri.toString(), Toast.LENGTH_LONG).show();
+                    }
                 }
             }
         });
