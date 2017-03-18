@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,11 +29,12 @@ import java.net.URL;
 public class DetailsActivity extends AppCompatActivity implements TrailersAdapter.TrailersAdapterOnClickHandler {
     private static Trailer[] mTrailers;
     private static Review[] mReviews;
-    private ImageView mPoster, mBackdrop, mPlayButton;
+    private ImageView mPoster, mBackdrop, mFavoriteStar;
     private TextView mTitleTextView, mReleaseDateTextView, mVoteAverageTextView, mOverviewTextView;
     private RecyclerView mTrailersRecyclerView, mReviewsRecyclerView;
     private TrailersAdapter mTrailersAdapter;
     private ReviewsAdapter mReviewsAdapter;
+    private boolean mIsFavorited;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,12 +43,14 @@ public class DetailsActivity extends AppCompatActivity implements TrailersAdapte
 
         mPoster = (ImageView) findViewById(R.id.iv_poster);
         mBackdrop = (ImageView) findViewById(R.id.iv_backdrop);
-        mPlayButton = (ImageView) findViewById(R.id.iv_play_button);
+        mFavoriteStar = (ImageView) findViewById(R.id.iv_favorite);
 
         mTitleTextView = (TextView) findViewById(R.id.tv_title);
         mReleaseDateTextView = (TextView) findViewById(R.id.tv_release_date);
         mVoteAverageTextView = (TextView) findViewById(R.id.tv_vote_average);
         mOverviewTextView = (TextView) findViewById(R.id.tv_overview);
+
+        mIsFavorited = false;
 
         int position = getIntent().getIntExtra("position", -1);
         Movie movie = ListActivity.movies[position];
@@ -76,6 +80,38 @@ public class DetailsActivity extends AppCompatActivity implements TrailersAdapte
                 .centerInside()
                 .fit()
                 .into(mBackdrop);
+
+        Picasso.with(DetailsActivity.this)
+                .load(R.raw.unfavorite_star)
+                .noFade()
+                .resize(200, 200)
+                .error(R.raw.load_error)
+                .into(mFavoriteStar);
+
+        mFavoriteStar.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                if (mIsFavorited) {
+                    mIsFavorited = false;
+                    Picasso.with(DetailsActivity.this)
+                            .load(R.raw.unfavorite_star)
+                            .noFade()
+                            .resize(200, 200)
+                            .error(R.raw.load_error)
+                            .into(mFavoriteStar);
+                    // call query to delete this movie id from the db
+                }
+                else {
+                    mIsFavorited = true;
+                    Picasso.with(DetailsActivity.this)
+                            .load(R.raw.favorite_star)
+                            .noFade()
+                            .resize(200, 200)
+                            .error(R.raw.load_error)
+                            .into(mFavoriteStar);
+                    // call query to insert this movie's title and id to the db
+                }
+            }
+        });
 
         mTrailersRecyclerView = (RecyclerView) findViewById(R.id.rv_trailers);
         LinearLayoutManager trailersLayoutManager

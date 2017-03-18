@@ -20,7 +20,7 @@
             android:id="@+id/tv_stub"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="100dp" />
+            android:textSize="100sp" />
 
         <ImageView
             android:id="@+id/iv_poster"
@@ -60,6 +60,14 @@
             android:padding="5dp"
             android:textSize="12sp"
             android:textStyle="bold"/>
+
+        <ImageView
+            android:id="@+id/iv_favorite"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_below="@id/tv_vote_average"
+            android:layout_toRightOf="@id/iv_poster"
+            android:layout_toEndOf="@id/iv_poster"/>
 
         <TextView
             android:id="@+id/tv_overview"
