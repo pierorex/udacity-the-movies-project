@@ -10,6 +10,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import static com.example.piero.themoviesproject.data.MovieContract.MovieEntry.TABLE_NAME;
+import static com.example.piero.themoviesproject.data.MovieContract.MovieEntry;
 
 
 public class MovieContentProvider extends ContentProvider {
@@ -140,14 +141,14 @@ public class MovieContentProvider extends ContentProvider {
                 // Get the movie ID from the URI path
                 String id = uri.getPathSegments().get(1);
                 // Use selections/selectionArgs to filter for this ID
-                moviesDeleted = db.delete(TABLE_NAME, "_id=?", new String[]{id});
+                moviesDeleted = db.delete(TABLE_NAME, MovieEntry.COLUMN_THEMOVIEDB_ID + "=?", new String[]{id});
                 break;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
 
         if (moviesDeleted != 0) {
-            // A task was deleted, set notification
+            // A movie was deleted, set notification
             getContext().getContentResolver().notifyChange(uri, null);
         }
 
